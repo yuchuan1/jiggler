@@ -3,19 +3,30 @@ import time
 
 pyautogui.FAILSAFE = False
 
-def mouse_j(interval=1):
-    """j the mouse every 'interval' seconds."""
-    print("Mouse j started. Press Ctrl+C to stop.")
+def activity_simulator(interval=60):
+    """
+    Alternates between moving the mouse and pressing F15 key every 'interval' seconds (default: 60 seconds).
+    """
+    print("Activity simulator started. Press Ctrl+C to stop.")
     try:
+        action_counter = 0
         while True:
-            pyautogui.moveRel(5, 0)
+            if action_counter % 2 == 0:
+                # Move mouse
+                pyautogui.moveRel(5, 0)
+                time.sleep(0.1)  # Short delay between movements
+                pyautogui.moveRel(-5, 0)
+                print(f"Mouse moved. Waiting for {interval} seconds...")
+            else:
+                # Press F15 key
+                pyautogui.press('f15')
+                print(f"F15 key pressed. Waiting for {interval} seconds...")
+            
+            action_counter += 1
             time.sleep(interval)
-            pyautogui.moveRel(-5, 0)
-            time.sleep(interval)
-            pyautogui.keyDown('shift')
-            pyautogui.keyUp('shift')
+            
     except KeyboardInterrupt:
-        print("Mouse j stopped.")
+        print("Activity simulator stopped.")
 
 if __name__ == "__main__":
-    mouse_j()
+    activity_simulator()
